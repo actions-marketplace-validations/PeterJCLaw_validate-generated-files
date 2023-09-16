@@ -12,7 +12,7 @@ runner environment.
 
 ```yaml
 steps:
-  - uses: PeterJCLaw/validate-generated-files
+  - uses: PeterJCLaw/validate-generated-files@v1
     with:
       command: pip-compile
       files: requirements.txt
