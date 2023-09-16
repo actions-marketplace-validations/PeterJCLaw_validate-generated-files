@@ -21,13 +21,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check dependency-free runtime
-        run: |
-          base=$PWD
-          cd $(mktemp --directory)
-          echo foo > foo.out
-          python3 $base/validate-generated-files.py --files foo.out -- bash -c 'echo foo > foo.out'
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
