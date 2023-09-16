@@ -1,0 +1,21 @@
+name: Validate Action
+description: A GitHub Action to validate generated files stored in a repository.
+
+inputs:
+  command:
+    description: The command to run which will produce the files.
+    required: true
+  files:
+    description: The files to validate.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        FILES=$(echo "${{ inputs.files }}" | tr '\n' ' ')
+        python3 validate-generated-files.py \
+          --files $FILES \
+          -- \
+          ${{ inputs.command }}

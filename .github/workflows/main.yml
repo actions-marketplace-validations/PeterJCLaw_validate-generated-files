@@ -46,3 +46,28 @@ jobs:
 
       - name: Test
         run: ./run-tests
+
+  action-check:
+    strategy:
+      matrix:
+        test-os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.test-os }}
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup
+        run: |
+          echo foo > /tmp/foo.out
+          echo bar > /tmp/bar.out
+
+      - uses: ./.
+        with:
+          command: python -c "print('foo', file=open('/tmp/foo.out', mode='w')); print('bar', file=open('/tmp/bar.out', mode='w'))"
+          files: |
+            /tmp/foo.out
+            /tmp/bar.out
