@@ -1,0 +1,48 @@
+name: main
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  run-checks:
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+        test-os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.test-os }}
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check dependency-free runtime
+        run: |
+          base=$PWD
+          cd $(mktemp --directory)
+          echo foo > foo.out
+          python3 $base/validate-generated-files.py --files foo.out -- bash -c 'echo foo > foo.out'
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: '**/requirements.txt'
+
+      - name: Install test dependencies
+        run: pip install -r script/requirements-dev.txt
+
+      - name: Lint
+        run: ./script/linting/lint
+
+      - name: Typecheck
+        run: ./script/typing/check
+
+      - name: Test
+        run: ./run-tests

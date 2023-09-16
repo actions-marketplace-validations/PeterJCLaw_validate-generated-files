@@ -1,0 +1,16 @@
+# Need 3.8 for fixes around typing comments
+flake8>=3.8
+flake8-bugbear
+flake8-builtins
+flake8-commas
+flake8-comprehensions
+flake8-debugger
+flake8-fixme
+flake8-isort
+flake8-noqa
+flake8-tuple
+
+isort
+
+# flake8-commas has an implicit dependency on pkg_resources
+setuptools
