@@ -10,7 +10,7 @@ import subprocess
 from pathlib import Path
 
 TESTS = Path(__file__).parent / 'tests'
-VALIDATE_GENERATED_FILES = Path(__file__).parent / 'validate-generated-files.py'
+VALIDATE_GENERATED_FILES = Path(__file__).absolute().parent / 'validate-generated-files.py'
 
 EXPECTED = [
     (TESTS / 'ok', 0),
