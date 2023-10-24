@@ -66,7 +66,7 @@ def main(args: argparse.Namespace) -> None:
                 print(diff, end='')
 
         except UnicodeDecodeError:
-            if actual != original:
+            if actual_bytes != original_bytes:
                 mismatches = True
                 print(f"Binary file {path} has changes")
                 continue

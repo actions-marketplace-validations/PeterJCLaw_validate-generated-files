@@ -14,7 +14,9 @@ VALIDATE_GENERATED_FILES = Path(__file__).absolute().parent / 'validate-generate
 
 EXPECTED = [
     (TESTS / 'ok', 0),
+    (TESTS / 'ok-binary', 0),
     (TESTS / 'mismatch', 1),
+    (TESTS / 'mismatch-binary', 1),
     (TESTS / 'missing-generated', 1),
     (TESTS / 'error', 2),
 ]
