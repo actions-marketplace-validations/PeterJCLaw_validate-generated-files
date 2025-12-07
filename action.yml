@@ -15,7 +15,7 @@ runs:
     - shell: bash
       run: |
         FILES=$(echo "${{ inputs.files }}" | tr '\n' ' ')
-        python3 validate-generated-files.py \
+        python3 ${{ github.action_path }}/validate-generated-files.py \
           --files $FILES \
           -- \
           ${{ inputs.command }}

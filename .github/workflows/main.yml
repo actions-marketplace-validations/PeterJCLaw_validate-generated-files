@@ -57,10 +57,28 @@ jobs:
         run: |
           echo foo > /tmp/foo.out
           echo bar > /tmp/bar.out
+          echo baz > /tmp/baz.out
 
-      - uses: ./.
+      - name: Happy path
+        uses: ./.
         with:
           command: python -c "print('foo', file=open('/tmp/foo.out', mode='w')); print('bar', file=open('/tmp/bar.out', mode='w'))"
           files: |
             /tmp/foo.out
-            /tmp/bar.out
+            /tmp/ba*.out
+
+      - name: Mismatch in wildcard file
+        uses: ./.
+        continue-on-error: true
+        id: should-fail
+        with:
+          command: python -c "print('BAR', file=open('/tmp/baz.out', mode='w'))"
+          files: |
+            /tmp/foo.out
+            /tmp/ba*.out
+
+      - name: Check expected failure
+        if: ${{ steps.should-fail.outcome != 'failure' }}
+        run: |
+          echo "Unexpected outcome from mismatched files: ${{ steps.should-fail.outcome }} != failure"
+          exit 1
